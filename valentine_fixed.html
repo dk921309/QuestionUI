@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffecd2, #fcb69f, #ff9a9e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating hearts and sparkles background */
+        .heart-bg, .sparkle {
+            position: absolute;
+            animation: float 15s infinite;
+            pointer-events: none;
+        }
+
+        .heart-bg {
+            font-size: 30px;
+            color: rgba(255, 105, 180, 0.3);
+        }
+
+        .sparkle {
+            font-size: 20px;
+            color: rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) rotate(45deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            animation: shoot 3s linear infinite;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-300px) translateY(300px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 35px;
+            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            text-align: center;
+            max-width: 500px;
+            width: 92%;
+            position: relative;
+            animation: slideIn 0.8s ease-out;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff6b9d, #c06c84, #f67280, #ffa8b5);
+            border-radius: 35px;
+            z-index: -1;
+            animation: rotateBorder 4s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 25px;
+                width: 95%;
+                max-width: 450px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 18px;
+                width: 96%;
+            }
+        }
+
+        .question-box {
+            display: block;
+        }
+
+        .question-box.hidden {
+            display: none;
+        }
+
+        .success-box {
+            display: none;
+        }
+
+        .success-box.show {
+            display: block;
+            animation: celebrate 1s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0.3) rotate(-10deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            background: linear-gradient(45deg, #ff6b9d, #c06c84, #ff6b9d);
+            background-size: 200% 200%;
+            animation: gradientText 3s ease infinite, pulse 2s infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6em;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.4em;
+            }
+        }
+
+        .emoji {
+            font-size: 90px;
+            margin: 20px 0;
+            animation: bounce 1.5s infinite, rotate 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @media (max-width: 768px) {
+            .emoji {
+                font-size: 70px;
+                margin: 15px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .emoji {
+                font-size: 60px;
+                margin: 12px 0;
+            }
+        }
+
+        .emoji-row {
+            font-size: 35px;
+            margin: 15px 0;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        .emoji-row span {
+            display: inline-block;
+            animation: float-emoji 3s ease-in-out infinite;
+        }
+
+        .emoji-row span:nth-child(1) { animation-delay: 0s; }
+        .emoji-row span:nth-child(2) { animation-delay: 0.2s; }
+        .emoji-row span:nth-child(3) { animation-delay: 0.4s; }
+        .emoji-row span:nth-child(4) { animation-delay: 0.6s; }
+        .emoji-row span:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes float-emoji {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .emoji-row {
+                font-size: 28px;
+                margin: 12px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .emoji-row {
+                font-size: 24px;
+                margin: 10px 0;
+            }
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #ff6b9d;
+            margin: 25px 0;
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 107, 157, 0.3);
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 107, 157, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .question {
+                font-size: 1.25em;
+                margin: 20px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .question {
+                font-size: 1.1em;
+                margin: 18px 0;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 35px;
+            position: relative;
+            min-height: 70px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .buttons {
+                gap: 15px;
+                margin-top: 30px;
+                min-height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons {
+                gap: 12px;
+                margin-top: 25px;
+                min-height: 150px;
+            }
+        }
+
+        button {
+            padding: 16px 40px;
+            font-size: 1.25em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            button {
+                padding: 14px 35px;
+                font-size: 1.1em;
+                width: 180px;
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+                width: 160px;
+                min-width: 160px;
+            }
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 50%, #f67280 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+            animation: heartbeat 1.5s infinite;
+            z-index: 10;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(1.1);
+            }
+            20%, 40% {
+                transform: scale(1);
+            }
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.7);
+            animation: none;
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #ff7675 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .no-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .success-message {
+            font-size: 1.8em;
+            background: linear-gradient(45deg, #ff6b9d, #c06c84);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            font-weight: bold;
+            animation: bounceIn 1s;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .success-message {
+                font-size: 1.4em;
+                margin: 18px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-message {
+                font-size: 1.2em;
+                margin: 15px 0;
+            }
+        }
+
+        .sweet-message {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.8;
+            margin: 20px 0;
+            animation: fadeInUp 1.2s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sweet-message {
+                font-size: 1.05em;
+                line-height: 1.6;
+                margin: 18px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sweet-message {
+                font-size: 0.95em;
+                line-height: 1.5;
+                margin: 15px 0;
+            }
+        }
+
+        .her-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            margin: 30px auto;
+            object-fit: cover;
+            border: 6px solid;
+            border-color: #ff6b9d #c06c84 #f67280 #ffa8b5;
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4),
+                        0 0 20px rgba(255, 107, 157, 0.2) inset;
+            animation: imageFloat 3s ease-in-out infinite, imageGlow 2s ease-in-out infinite;
+            display: block;
+        }
+
+        @keyframes imageFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(3deg);
+            }
+        }
+
+        @keyframes imageGlow {
+            0%, 100% {
+                box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4),
+                            0 0 20px rgba(255, 107, 157, 0.2) inset;
+            }
+            50% {
+                box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6),
+                            0 0 30px rgba(255, 107, 157, 0.4) inset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .her-image {
+                width: 200px;
+                height: 200px;
+                margin: 25px auto;
+                border: 5px solid;
+                border-color: #ff6b9d #c06c84 #f67280 #ffa8b5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .her-image {
+                width: 170px;
+                height: 170px;
+                margin: 20px auto;
+                border: 4px solid;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #f5576c;
+            animation: confetti-fall 4s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .attempt-counter {
+            font-size: 1.1em;
+            color: #ff6b9d;
+            margin-top: 20px;
+            font-style: italic;
+            font-weight: 600;
+            min-height: 30px;
+            animation: fadeIn 0.6s;
+            text-shadow: 0 2px 4px rgba(255, 107, 157, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .attempt-counter {
+                font-size: 1em;
+                margin-top: 18px;
+                min-height: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .attempt-counter {
+                font-size: 0.9em;
+                margin-top: 15px;
+                min-height: 25px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Decorative hearts around container */
+        .deco-heart {
+            position: absolute;
+            font-size: 25px;
+            animation: heartPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        .deco-heart:nth-child(1) { top: -15px; left: -15px; animation-delay: 0s; }
+        .deco-heart:nth-child(2) { top: -15px; right: -15px; animation-delay: 0.3s; }
+        .deco-heart:nth-child(3) { bottom: -15px; left: -15px; animation-delay: 0.6s; }
+        .deco-heart:nth-child(4) { bottom: -15px; right: -15px; animation-delay: 0.9s; }
+
+        @media (max-width: 768px) {
+            .deco-heart {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .deco-heart {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating hearts and sparkles background -->
+    <div id="backgroundEffects"></div>
+
+    <div class="container">
+        <!-- Decorative corner hearts -->
+        <div class="deco-heart">💖</div>
+        <div class="deco-heart">💝</div>
+        <div class="deco-heart">💗</div>
+        <div class="deco-heart">💕</div>
+
+        <!-- Question Box -->
+        <div class="question-box" id="questionBox">
+            <h1>💝 Doctor Engineer Love Story Starts Here 💝</h1>
+            <div class="emoji">🌹</div>
+            <div class="emoji-row">
+                <span>💖</span>
+                <span>✨</span>
+                <span>💕</span>
+                <span>✨</span>
+                <span>💖</span>
+            </div>
+            
+            <!-- EDIT THIS: Main question text (fixed) -->
+            <p class="question"> Oyee DCSB Ma'am... Will you be my Valentine?</p>
+            
+            <!-- Random messages appear here when "No" is clicked -->
+            <p class="attempt-counter" id="attemptCounter"></p>
+            
+            <div class="buttons" id="buttonsContainer">
+                <button class="yes-btn" onclick="handleYes()">Yes! 💖</button>
+                <button class="no-btn" id="noBtn" onclick="handleNo()">No 😢</button>
+            </div>
+        </div>
+
+        <!-- Success Box -->
+        <div class="success-box" id="successBox">
+            <h1>💖 Yay! That's my girl 💖</h1>
+            
+            <!-- Keeping only emoji row, removed big emoji -->
+            <div class="emoji-row">
+                <span>💝</span>
+                <span>✨</span>
+                <span>🎊</span>
+                <span>✨</span>
+                <span>💝</span>
+            </div>
+            
+            <!-- EDIT THIS: Success heading (fixed) -->
+            <p class="success-message">You made me the happiest! 🥰</p>
+            
+            <!-- EDIT THIS: Replace with her image URL (Fixed for Google Drive) -->
+            <img src="https://drive.google.com/uc?export=view&id=1hMPPvWilicm6r_5bWhNS-JMUpJHlEs8o" 
+                 alt="Special Person" 
+                 class="her-image"
+                 onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400&h=400&fit=crop'">
+            
+            <!-- EDIT THIS: Sweet message paragraph (fixed) -->
+            <p class="sweet-message">
+                You don't need an OT to fix me, <br>
+                You healed me without ever trying. <br>
+                My heart checked itself in when you smiled, <br>
+                No discharge planned— lifetime with my sweet lifeline. 🌹💕
+            </p>
+            
+            <div class="emoji-row">
+                <span>💑</span>
+                <span>❤️</span>
+                <span>💏</span>
+                <span>❤️</span>
+                <span>💑</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+
+        // ==========================================
+        // EDIT THIS: Array of 7 random messages when user clicks "No"
+        // You can change these messages to anything you want!
+        // ==========================================
+        const randomMessages = [
+            "Bachaa, are you sure? 🥺 I promise to make every day magical for you! ✨",
+            "Come on... I'll be the best Valentine ever! 💝 Give me a chance? 🙏",
+            "Please Yaar Sonu? 🌹 ... Just say yesssss! 💕",
+            "Oyeee, I know you're just playing... Your heart saying yessssss....hna hna??! 💖",
+            "Still no? 😢 But we would make the most perfect pair ever Sonu Deepak. Hna hna??! 💑",
+            "I won't give up that easily! 💪 You mean the entire world to me! 🌍💕",
+            "One chance Bachaa? 🎁 I promise endless love and happiness! ✨💖"
+        ];
+
+        // Create floating hearts, sparkles, and shooting stars
+        function createBackgroundEffects() {
+            const container = document.getElementById('backgroundEffects');
+            
+            // Create floating hearts
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-bg';
+                heart.innerHTML = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                container.appendChild(heart);
+            }
+
+            // Create sparkles
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = ['✨', '⭐', '🌟'][Math.floor(Math.random() * 3)];
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 15 + 's';
+                sparkle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(sparkle);
+            }
+
+            // Create shooting stars
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.top = Math.random() * 50 + '%';
+                star.style.right = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Move No button randomly (but keep it away from Yes button)
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.querySelector('.yes-btn');
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            
+            let randomX, randomY;
+            let attempts = 0;
+            const maxAttempts = 20;
+            
+            // Keep trying to find a position that doesn't overlap with Yes button
+            do {
+                const maxX = containerRect.width - noBtn.offsetWidth - 100;
+                const maxY = 200;
+                
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY - 100;
+                
+                attempts++;
+                
+                // Calculate distance from Yes button
+                const noBtnLeft = randomX;
+                const noBtnTop = randomY;
+                const yesBtnLeft = yesBtnRect.left - containerRect.left;
+                const yesBtnTop = yesBtnRect.top - containerRect.top;
+                
+                const distance = Math.sqrt(
+                    Math.pow(noBtnLeft - yesBtnLeft, 2) + 
+                    Math.pow(noBtnTop - yesBtnTop, 2)
+                );
+                
+                // If far enough from Yes button, use this position
+                if (distance > 120 || attempts >= maxAttempts) {
+                    break;
+                }
+            } while (true);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Handle No click
+        function handleNo() {
+            attempts++;
+            
+            // Get random message from array
+            const randomIndex = Math.floor(Math.random() * randomMessages.length);
+            const randomMessage = randomMessages[randomIndex];
+            
+            // Display the random message
+            document.getElementById('attemptCounter').textContent = randomMessage;
+            
+            // Shake the container
+            const container = document.querySelector('.container');
+            container.style.animation = 'none';
+            setTimeout(() => {
+                container.style.animation = 'shake 0.5s, slideIn 0.8s';
+            }, 10);
+        }
+
+        // Handle Yes click
+        function handleYes() {
+            document.getElementById('questionBox').classList.add('hidden');
+            document.getElementById('successBox').classList.add('show');
+            
+            // Create confetti
+            createConfetti();
+            
+            // Play celebration
+            celebrate();
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#c06c84', '#f67280', '#ffa8b5', '#ffd700', '#ff69b4'];
+            const shapes = ['❤️', '💕', '💖', '✨', '⭐', '🌟'];
+            
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = -20 + 'px';
+                    
+                    // Random: use emoji or colored square
+                    if (Math.random() > 0.5) {
+                        confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                        confetti.style.background = 'transparent';
+                        confetti.style.fontSize = '20px';
+                    } else {
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    }
+                    
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 6000);
+                }, i * 20);
+            }
+        }
+
+        // Celebration function
+        function celebrate() {
+            // Trigger fireworks effect
+            setTimeout(() => {
+                const container = document.querySelector('.container');
+                container.style.animation = 'celebrate 1s ease-out';
+            }, 100);
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        createBackgroundEffects();
+
+        // Add continuous sparkle effect on success page
+        setInterval(() => {
+            if (document.getElementById('successBox').classList.contains('show')) {
+                const sparkles = ['✨', '⭐', '🌟', '💫'];
+                const sparkle = document.createElement('div');
+                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.fontSize = '30px';
+                sparkle.style.animation = 'fadeOut 2s forwards';
+                sparkle.style.pointerEvents = 'none';
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }, 500);
+
+        // Add fadeOut animation for sparkles
+        const fadeOutStyle = document.createElement('style');
+        fadeOutStyle.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: scale(0) rotate(0deg);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(2) rotate(180deg);
+                }
+            }
+        `;
+        document.head.appendChild(fadeOutStyle);
+    </script>
+</body>
+</html>
